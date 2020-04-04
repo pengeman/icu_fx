@@ -8,8 +8,8 @@
 
 package org.peng.icu.action;
 
-import org.peng.icu.ICU_face;
 import org.peng.icu.rabbitmq.tran.RecListener;
+import org.peng.icu.rabbitmq.tran.Send;
 
 /**
  * send & rec
@@ -21,15 +21,9 @@ public class SR {
     public void sendDOC(String filename){
         org.peng.icu.rabbitmq.tran.Send.sendDOC(filename);
     }
-    public void rec(){
-        org.peng.icu.rabbitmq.tran.Rec.rec(new RecListener() {
-            public void msgRec(byte[] msg) {
-                System.out.println(new String(msg));
-            }
 
-            public void docRec(byte[] bytes) {
-
-            }
-        });
+    public void sendDOC(byte[] fileContent){
+        Send.sendDOC(fileContent);
     }
+
 }

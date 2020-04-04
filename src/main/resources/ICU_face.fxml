@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
 
 <!--
   ~ Copyright (c) 2020. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -15,10 +12,7 @@
   ~ Vestibulum commodo. Ut rhoncus gravida arcu.
   -->
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.peng.icu.ICUFaceController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane fx:id="anchorPane" prefHeight="563.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.peng.icu.ICUFaceController">
 
 
 
@@ -63,11 +57,23 @@
             </Menu>
         </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="535.0" prefWidth="695.0" VBox.vgrow="ALWAYS">
         <children>
-            <TextArea fx:id="textArea" layoutX="14.0" layoutY="14.0" prefHeight="454.0" prefWidth="774.0" />
             <TextField fx:id="textField" layoutX="14.0" layoutY="494.0" onKeyPressed="#textField_enterPressed" prefHeight="26.0" prefWidth="648.0" />
-            <Button layoutX="731.0" layoutY="494.0" mnemonicParsing="false" onAction="#sendButton_clicked" text="Button" />
+            <Button layoutX="678.0" layoutY="494.0" mnemonicParsing="false" onAction="#sendButton_clicked" text="Button" />
+               <ToolBar layoutX="14.0" layoutY="442.0" prefHeight="40.0" prefWidth="648.0">
+                 <items>
+                   <Button fx:id="capB" mnemonicParsing="false" onAction="#capB_clicked" prefHeight="28.0" prefWidth="70.0" text="camera" />
+                     <Button fx:id="fileB" mnemonicParsing="false" onAction="#sendFile" prefHeight="28.0" prefWidth="70.0" text="file" />
+                     <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0">
+                        <graphic>
+                           <ImageView fitHeight="18.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true" />
+                        </graphic>
+                     </Button>
+                 </items>
+               </ToolBar>
+               
+               <ListView fx:id="listView2" layoutX="13.0" layoutY="14.0" onMouseClicked="#listViewmouseClicked" prefHeight="428.0" prefWidth="648.0" />
         </children>
     </AnchorPane>
 </children>
