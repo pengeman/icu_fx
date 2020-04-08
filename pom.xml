@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.peng</groupId>
             <artifactId>icu-rabbitmq</artifactId>
-            <version>2.0.20200331</version>
+            <version>2.0.20200408</version>
         </dependency>
 
         <dependency>

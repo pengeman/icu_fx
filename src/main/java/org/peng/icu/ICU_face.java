@@ -23,6 +23,9 @@ import org.peng.icu.rabbitmq.tran.RecListener;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,18 +110,13 @@ public class ICU_face extends Application {
         Rec.rec(new RecListener() {
             @Override
             public void msgRec(byte[] msg) {
-                System.out.println("显示byte[]");
-                for (byte b : msg){
-                    System.out.println(b);
-                }
+                String curcharacterSet = System.getProperty("file.encoding");
+                String newstr = new String(msg,Charset.forName("utf-8"));
+                Charset charset = Charset.forName(curcharacterSet);
+                ByteBuffer bytebuffer = charset.encode(newstr);
+                CharBuffer charBuffer = charset.decode(bytebuffer);
+                newstr = charBuffer.toString();
 
-                String characterSet = System.getProperty("file.encoding");
-                String newstr = "";
-                try {
-                    newstr = new String(msg,characterSet);
-                } catch (UnsupportedEncodingException e) {
-                    log.error(e);
-                }
                 ICU_face.this.showMSG(newstr,controller);
             }
 
@@ -157,7 +155,7 @@ public class ICU_face extends Application {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if (filename == null || filename.getBytes().length < 16) {
+                if (filename == null || filename.trim().getBytes().length < 16) {
                     String tmpfilename = System.currentTimeMillis()+"noName";
                     InputStream is = new ByteArrayInputStream(bytes);
                     javafx.scene.image.Image image = new Image(is, 80, 80, true, true);
@@ -215,4 +213,16 @@ public class ICU_face extends Application {
         }
     }
 
+    private byte[] ToGBK(String str){
+        Charset charset_gbk = Charset.forName("gbk");
+        ByteBuffer bytebuffer = charset_gbk.encode(str);
+        byte[] bs = bytebuffer.array();
+        return bs;
+    }
+    private byte[] ToUTF8(String str){
+        Charset charset_gbk = Charset.forName("utf-8");
+        ByteBuffer bytebuffer = charset_gbk.encode(str);
+        byte[] bs = bytebuffer.array();
+        return bs;
+    }
 }

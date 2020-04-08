@@ -20,6 +20,9 @@ import javafx.stage.Stage;
 import org.peng.icu.videorecorder.CaptureScreen;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+
 import org.apache.log4j.Logger;
 
 public class ICUFaceController {
@@ -54,22 +57,29 @@ Logger log = Logger.getLogger(ICUFaceController.class);
     // 发送文本消息
 private void sendMSG(String msg){
         String msg2 = "error";
-    try {
-        msg2 = new String(msg.getBytes(),"utf-8");
-    } catch (UnsupportedEncodingException e) {
-        log.error(e);
-    }
-    rs.sendMSG(msg2);
-    byte[] bytes = msg2.getBytes();
+byte[] bs = new byte[0];
+        // 获得当前系统的字符编码集
+        String characterSet = System.getProperty("file.encoding");
+        if (characterSet.equalsIgnoreCase("utf-8")){
+            bs = msg.getBytes();
+            log.info("utf-8 编码格式发送");
+        }else if (characterSet.equalsIgnoreCase("gbk")){
+            bs = this.ToUTF8(msg);
+            log.info("gbk转换成utf-8 编码格式发送");
+        }
 
-    int byteslen = bytes.length;
-    if (byteslen > 20) byteslen = 20;
-    for (int i = 0 ; i < byteslen ; i ++){
-        log.debug(bytes[i]);
+     rs.sendMSG(bs);
+
+    // 里面的代码为测试使用
+    {
+        for (byte b : bs){
+            System.out.println(b);
+        }
     }
+    //
 
     this.textField.clear();
-    this.getListView2().getItems().add(">"+msg2);
+    this.getListView2().getItems().add(">"+msg);
 }
     public TextField getTextField() {
         return textField;
@@ -201,4 +211,17 @@ private void sendMSG(String msg){
         String filename = file.getAbsolutePath();
         rs.sendDOC(filename);
     }
+    private byte[] ToGBK(String str){
+        Charset charset_gbk = Charset.forName("gbk");
+        ByteBuffer bytebuffer = charset_gbk.encode(str);
+        byte[] bs = bytebuffer.array();
+        return bs;
+    }
+    private byte[] ToUTF8(String str){
+        Charset charset_gbk = Charset.forName("utf-8");
+        ByteBuffer bytebuffer = charset_gbk.encode(str);
+        byte[] bs = bytebuffer.array();
+        return bs;
+    }
+
 }

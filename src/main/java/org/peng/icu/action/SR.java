@@ -18,6 +18,9 @@ public class SR {
     public void sendMSG(String msg){
         org.peng.icu.rabbitmq.tran.Send.sendMSG(msg);
     }
+    public void sendMSG(byte[] msg){
+        org.peng.icu.rabbitmq.tran.Send.sendMSG(msg);
+    }
     public void sendDOC(String filename){
         org.peng.icu.rabbitmq.tran.Send.sendDOC(filename);
     }
